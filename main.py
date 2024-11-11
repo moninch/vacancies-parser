@@ -14,7 +14,9 @@ def scrape_city(city):
     chrome_options = Options()
     chrome_options.add_argument("--headless")  # Запуск в фоновом режиме
 
-    service = Service("C:\Users\Даниил\Desktop\chromedriver-win64\chromedriver.exe")  # Укажи путь к chromedriver
+    service = Service(
+        "C:\\Users\\Даниил\\Desktop\\chromedriver-win64\\chromedriver.exe"
+    )  # Укажи путь к chromedriver
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
     url = f"https://www.tbank.ru/career/vacancies/service/{city}/?utm_medium=sn_tg&utm_source=mgm_mb_android&short_link=9CqkvjrwMuV&_deep_link_sub1=9CqkvjrwMuV&httpMethod=GET"
@@ -38,7 +40,7 @@ def scrape_city(city):
     soup = BeautifulSoup(driver.page_source, "html.parser")
     vacancies = soup.find_all("div", class_="VacancyCard__title-desktop_eq6NiZ")
 
-    # Сохранение вакансий в отдельный файл для каждого города
+    # Сохранение вакансий в отдельный файл для каждого города, НЕОБХОДИМО СОЗДАТЬ ПАПКУ parsing_town
     with open(f"parsing_town/{city}_vacancies.txt", "w", encoding="utf-8") as f:
         for vacancy in vacancies:
             title = vacancy.text.strip()
@@ -67,8 +69,6 @@ def main():
         "chelyabinsk",
         "kaliningrad",
         "vladivostok",
-
-        
     ]
 
     with Pool(4) as pool:
